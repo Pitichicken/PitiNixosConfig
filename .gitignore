@@ -1,0 +1,14 @@
+backup-old/
+
+secrets/
+*.secret
+*.key
+*.pem
+*.p12
+*.pfx
+*.age
+
+result
+*.swp
+*~
+.direnv/
