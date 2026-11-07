@@ -1,3 +1,4 @@
+
 {
   description = "Pitichicken NixOS configuration";
 
@@ -6,20 +7,25 @@
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.2.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
-    {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+  outputs = { nixpkgs, home-manager, lanzaboote, ... }: {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
 
-        modules = [
-          ./configuration.nix
-          home-manager.nixosModules.default
-        ];
-      };
+      modules = [
+        ./configuration.nix
+        home-manager.nixosModules.default
+        lanzaboote.nixosModules.lanzaboote
+      ];
     };
+  };
 }
+

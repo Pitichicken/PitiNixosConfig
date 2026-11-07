@@ -1,4 +1,5 @@
-{ config, pkgs, ... }:
+
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -10,9 +11,18 @@
     ./modules/hardware.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+    configurationLimit = 2;
+  };
+
+  environment.systemPackages = [
+    pkgs.sbctl
+  ];
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -42,10 +52,8 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  
   users.users.pitichicken = {
     isNormalUser = true;
-
     description = "Paul Ravoux";
 
     extraGroups = [
@@ -57,7 +65,6 @@
     ];
   };
 
-
   programs.nix-ld.enable = true;
 
   boot.kernel.sysctl."kernel.yama.ptrace_scope" = 0;
@@ -67,6 +74,6 @@
   home-manager.backupFileExtension = "backup";
   home-manager.users.pitichicken = import ./home/home.nix;
 
-
   system.stateVersion = "26.05";
 }
+
