@@ -22,6 +22,7 @@
 
   environment.systemPackages = [
     pkgs.sbctl
+    pkgs.android-tools
   ];
 
   networking.hostName = "nixos";
@@ -51,7 +52,7 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
-
+  
   users.users.pitichicken = {
     isNormalUser = true;
     description = "Paul Ravoux";
